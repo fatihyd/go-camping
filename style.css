@@ -175,7 +175,8 @@ main div {
 #details,
 #amenities,
 #book,
-#location {
+#location,
+#reviews {
     border-radius: 25px;
     padding: 25px;
     margin: 25px;
@@ -186,14 +187,16 @@ main div {
 #details h2,
 #amenities h2,
 #book h2,
-#location h2 {
+#location h2,
+#reviews h2 {
     color: #057684;
 }
 
 #overview,
 #details,
 #amenities,
-#location {
+#location,
+#reviews {
     background-color: #f8f8f8;
     width: 750px;
 }
@@ -243,4 +246,24 @@ main div {
 #location iframe {
     margin: 32px;
     border-radius: 20px;
+}
+
+/* reviews */
+/*
+#reviews {
+    display: flex;
+}
+*/
+
+.user-picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }

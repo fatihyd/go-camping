@@ -94,7 +94,7 @@
                         <label for="number-of-guests">Guests</label>
                         <input type="number" id="number-of-guests" min="1">
                     </div>
-                    <button>Book Now!</button>
+                    <button id="book-now">Book Now!</button>
                 </div>
             </div>
         </div>
@@ -188,8 +188,18 @@
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
-    </main>
+        <div id="reviews">
+            <h2>Reviews</h2>
+            <div id="summary">
+                <h3>Overall Rating: <span id="overall-rating"></span></h3>
+                <span id="number-of-reviews"></span>
+                <button id="add-review">Add Review</button>
+            </div>
 
+            <div id="reviews-container"></div>
+        </div>
+        </div>
+    </main>
 
 </body>
 

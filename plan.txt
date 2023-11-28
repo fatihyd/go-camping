@@ -1,0 +1,8 @@
+div #reviews
+    h2
+    div #summary
+
+    div #reviews-container (reviewsContainer)
+        div #new-review /* added later */ (variable name: newReviewContainer)
+            div #left-side /* added later */ (variable name: leftSideContainer)
+            div #review-info /* added later */ (variable name: reviewInfoContainer)

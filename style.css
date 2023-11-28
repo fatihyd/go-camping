@@ -43,7 +43,7 @@ main {
 }
 
 main div {
-    margin: 24px;
+    margin: 16px;
 }
 
 /* first glance section */
@@ -155,7 +155,7 @@ main div {
     margin-bottom: 4px;
 }
 
-#book button {
+button {
     border: 0;
     border-radius: 50px;
     background-color: rgba(241, 99, 53, 255);
@@ -166,7 +166,7 @@ main div {
     width: 200px;
 }
 
-#book button:hover {
+button:hover {
     background-color: rgba(241, 119, 73, 1);
 }
 
@@ -249,12 +249,6 @@ main div {
 }
 
 /* reviews */
-/*
-#reviews {
-    display: flex;
-}
-*/
-
 .user-picture {
     width: 70px;
     height: 70px;
@@ -266,4 +260,81 @@ main div {
     justify-content: center;
     align-items: center;
 
+}
+
+#reviews-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-review {
+    display: flex;
+    margin: 0px;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.fa-star,
+.fa-star-half-full {
+    color: #ffc600;
+    font-size: 20px;
+}
+
+.new-review input {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+
+}
+
+.new-review label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#reviews button {
+    width: 120px;
+    margin-right: 8px;
+}
+
+.new-review textarea {
+    font-family: sans-serif;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+.new-review input[type=range] {
+    padding: 0;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 250px;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #057684;
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #057684;
+    cursor: pointer;
+}
+
+p {
+    line-height: 1.6;
 }

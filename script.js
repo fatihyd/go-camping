@@ -47,7 +47,7 @@ function addReviewButtonHandler() {
     reviewInfoContainer.className = "review-info";
     newReviewContainer.append(leftSideContainer, reviewInfoContainer);
 
-    // {name, rating, review, current_date}
+    // {name, rating, review}
     let nameContainer = document.createElement("div");
     nameContainer.classList.add("name-container");
     let userPicture = document.createElement("span");
@@ -66,6 +66,7 @@ function addReviewButtonHandler() {
     let ratingContainer = document.createElement("div");
     ratingContainer.classList.add("rating-container");
     let ratingLabel = document.createElement("label");
+    let ratingValue = document.createElement("p");
     ratingLabel.textContent = "Rating";
     ratingLabel.style.fontWeight = "bold";
     ratingLabel.setAttribute("for", "rating-input")
@@ -75,7 +76,14 @@ function addReviewButtonHandler() {
     ratingInput.min = 0;
     ratingInput.max = 5;
     ratingInput.step = 0.5;
-    ratingContainer.append(ratingLabel, ratingInput);
+    ratingValue.textContent = "Your rating: " + ratingInput.value;
+
+    // Update the current slider value (each time you drag the slider handle)
+    ratingInput.oninput = function () {
+        ratingValue.textContent = "Your rating: " + this.value;
+    }
+
+    ratingContainer.append(ratingLabel, ratingValue, ratingInput);
 
     let reviewContainer = document.createElement("div");
     reviewContainer.classList.add("review-container");
@@ -85,8 +93,8 @@ function addReviewButtonHandler() {
     reviewLabel.setAttribute("for", "review-input")
     let reviewInput = document.createElement("textarea");
     reviewInput.className = "review-input";
-    reviewInput.rows = 4;
-    reviewInput.cols = 10;
+    reviewInput.rows = 3;
+    reviewInput.cols = 48;
     reviewContainer.append(reviewLabel, reviewInput);
 
     let saveButton = document.createElement("button");
@@ -96,20 +104,22 @@ function addReviewButtonHandler() {
 
     reviewInfoContainer.append(nameContainer, ratingContainer, reviewContainer, saveButton, removeButton);
 
-    reviewsContainer.appendChild(newReviewContainer);
-
+    if (reviewsContainer.firstChild) {
+        reviewsContainer.insertBefore(newReviewContainer, reviewsContainer.firstChild);
+    } else {
+        reviewsContainer.appendChild(newReviewContainer);
+    }
 
     saveButton.addEventListener("click", () => saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton));
 
     // necessary event handlers
-    removeButton.addEventListener("click", () => removeButtonHandler(reviewInfoContainer));
+    removeButton.addEventListener("click", () => removeButtonHandler(newReviewContainer));
 }
 
 function saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton) {
     // user picture
     userPicture.textContent = nameInput.value.charAt(0).toUpperCase();
-    let randomColor = Math.floor(Math.random() * 16777215).toString(16);
-    userPicture.style.backgroundColor = "#" + randomColor;
+    userPicture.style.backgroundColor = getRandomColor();
 
     // replace
     let nameInfo = document.createElement("p");
@@ -117,7 +127,19 @@ function saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingIn
     nameInput.parentNode.replaceChild(nameInfo, nameInput);
     // replace
     let ratingInfo = document.createElement("p");
-    ratingInfo.textContent = ratingInput.value;
+
+    let wholeNumbers = Math.floor(ratingInput.value);
+    let halfNumbers = (ratingInput.value - wholeNumbers) * 2;
+    for (let i = 0; i < wholeNumbers; i++) {
+        let fullStar = document.createElement("i");
+        fullStar.classList = "fa fa-star checked";
+        ratingInfo.appendChild(fullStar);
+    }
+    for (let i = 0; i < halfNumbers; i++) {
+        let halfStar = document.createElement("i");
+        halfStar.classList = "fa fa-star-half-full";
+        ratingInfo.appendChild(halfStar);
+    }
     ratingInput.parentNode.replaceChild(ratingInfo, ratingInput);
     // replace
     let reviewInfo = document.createElement("p");
@@ -128,7 +150,18 @@ function saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingIn
     removeButton.remove();
 }
 
-function removeButtonHandler(reviewInfoContainer) {
+function removeButtonHandler(newReviewContainer) {
     // remove
-    reviewInfoContainer.remove();
+    newReviewContainer.remove();
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        // Generate a random index between 0 and 15, but not less than 8 to avoid light colors
+        var randomIndex = Math.floor(Math.random() * 8) + 8;
+        color += letters[randomIndex];
+    }
+    return color;
 }

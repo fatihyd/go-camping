@@ -257,9 +257,8 @@ button:hover {
     font-size: 36px;
     font-weight: bold;
     display: flex;
-    justify-content: center;
     align-items: center;
-
+    justify-content: center;
 }
 
 #reviews-container {
@@ -337,4 +336,9 @@ input[type=range]::-moz-range-thumb {
 
 p {
     line-height: 1.6;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
 }

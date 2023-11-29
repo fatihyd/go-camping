@@ -32,7 +32,7 @@ nextButton.addEventListener("click", function () {
 })
 
 /* reviews */
-
+/* 'Review' class to represent the submitted feedback */
 class Review {
     constructor(name, rating, review) {
         this.name = name;
@@ -40,34 +40,35 @@ class Review {
         this.review = review;
     }
 }
-
+/* Array of Review objects to store submitted feedback */
 let reviews = [];
 let reviewsContainers = [];
-
+/* Gets the already existing elements in DOM */
 let reviewsContainer = document.querySelector("#reviews-container");
 let addReviewButton = document.querySelector("#add-review");
 addReviewButton.addEventListener("click", addReviewButtonHandler);
-let showCommentsButton = document.createElement("button");
-showCommentsButton.id = "show-comments";
-showCommentsButton.textContent = "Show more comments";
+/* Adds a button to show more comments */
+let showReviewsButton = document.createElement("button");
+showReviewsButton.id = "show-reviews";
+showReviewsButton.textContent = "Show more reviews";
 
 function addReviewButtonHandler() {
-    //
+    /* Containers for the new review */
     let newReviewContainer = document.createElement("div");
     newReviewContainer.className = "new-review";
-    let leftSideContainer = document.createElement("div");
-    leftSideContainer.className = "left-side";
+    let profileContainer = document.createElement("div");
+    profileContainer.className = "user-profile";
     let reviewInfoContainer = document.createElement("div");
     reviewInfoContainer.className = "review-info";
-    newReviewContainer.append(leftSideContainer, reviewInfoContainer);
+    newReviewContainer.append(profileContainer, reviewInfoContainer);
 
-    // {name, rating, review}
-    let nameContainer = document.createElement("div");
-    nameContainer.classList.add("name-container");
+    /* Containers for the user picture */
     let userPicture = document.createElement("span");
     userPicture.className = "user-picture";
-    leftSideContainer.appendChild(userPicture);
-
+    profileContainer.appendChild(userPicture);
+    /* Containers for the name */
+    let nameContainer = document.createElement("div");
+    nameContainer.classList.add("name-container");
     let nameLabel = document.createElement("label");
     nameLabel.textContent = "Name";
     nameLabel.style.fontWeight = "bold";
@@ -76,7 +77,7 @@ function addReviewButtonHandler() {
     nameInput.type = "text";
     nameInput.className = "name-input";
     nameContainer.append(nameLabel, nameInput);
-
+    /* Containers for the rating */
     let ratingContainer = document.createElement("div");
     ratingContainer.classList.add("rating-container");
     let ratingLabel = document.createElement("label");
@@ -92,14 +93,12 @@ function addReviewButtonHandler() {
     ratingInput.max = 5;
     ratingInput.step = 0.5;
     ratingValue.textContent = "Your rating: " + ratingInput.value;
-
-    // Update the current slider value (each time you drag the slider handle)
+    /* Updates the rating slider */
     ratingInput.oninput = function () {
         ratingValue.textContent = "Your rating: " + this.value;
     }
-
     ratingContainer.append(ratingLabel, ratingValue, ratingInput);
-
+    /* Containers for the review */
     let reviewContainer = document.createElement("div");
     reviewContainer.classList.add("review-container");
     let reviewLabel = document.createElement("label");
@@ -111,41 +110,41 @@ function addReviewButtonHandler() {
     reviewInput.rows = 3;
     reviewInput.cols = 48;
     reviewContainer.append(reviewLabel, reviewInput);
-
+    /* Adds the save and the remove buttons */
     let saveButton = document.createElement("button");
     saveButton.textContent = "Save";
     let removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
-
+    /* Adds all the information to the container */
     reviewInfoContainer.append(nameContainer, ratingContainer, reviewContainer, saveButton, removeButton);
-
+    /* Adds the new review on top */
     if (reviewsContainer.firstChild) {
         reviewsContainer.insertBefore(newReviewContainer, reviewsContainer.firstChild);
     } else {
         reviewsContainer.appendChild(newReviewContainer);
     }
-
+    /* Updates the save and the remove button */
     saveButton.addEventListener("click", () => saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton));
-
-    // necessary event handlers
     removeButton.addEventListener("click", () => removeButtonHandler(newReviewContainer));
 }
 
 function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton) {
+    /* Creates and stores a new review */
     let review = new Review(nameInput.value, ratingInput.value, reviewInput.value);
     reviews.push(review);
 
-    // user picture
+    /* Updates the user picture */
     userPicture.textContent = nameInput.value.charAt(0).toUpperCase();
     userPicture.style.backgroundColor = getRandomColor();
-    // replace
+    /* Updates the name */
     let nameInfo = document.createElement("p");
     nameInfo.textContent = nameInput.value;
     nameInfo.style.fontWeight = "bold";
     nameInput.parentNode.replaceChild(nameInfo, nameInput);
-    // replace
+    newReviewContainer.querySelector('label[for="name-input"]').remove();
+    /* Updates the rating */
     let ratingInfo = document.createElement("p");
-
+    /* Changes the rating number into star icons */
     let wholeNumbers = Math.floor(ratingInput.value);
     let halfNumbers = (ratingInput.value - wholeNumbers) * 2;
     for (let i = 0; i < wholeNumbers; i++) {
@@ -159,21 +158,23 @@ function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInp
         ratingInfo.appendChild(halfStar);
     }
     ratingInput.parentNode.replaceChild(ratingInfo, ratingInput);
-    // replace
+    newReviewContainer.querySelector('label[for="rating-input"]').remove();
+    newReviewContainer.querySelector('.rating-value').remove();
+    /* Updates the review */
     let reviewInfo = document.createElement("p");
     reviewInfo.textContent = reviewInput.value;
     reviewInput.parentNode.replaceChild(reviewInfo, reviewInput);
-
-    // remove
+    newReviewContainer.querySelector('label[for="review-input"]').remove();
+    /* Removes the save and the remove buttons */
     saveButton.remove();
     removeButton.remove();
-
-    //
+    /* Stores the new review container */
     reviewsContainers.push(newReviewContainer);
+    /* Shows only 3 reviews */
     if (reviewsContainers.length > 3) {
-        //check to see if this button exists...
+        /* Checks to see if this button exists */
         if (!document.querySelector("#show-comments")) {
-            addReviewButton.insertAdjacentElement("afterend", showCommentsButton);
+            addReviewButton.insertAdjacentElement("afterend", showReviewsButton);
         }
 
         for (let i = 0; i < reviewsContainers.length; i++) {
@@ -184,7 +185,7 @@ function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInp
             reviewsContainers[reviewsContainers.length - 1 - i].style.display = "flex";
         }
 
-        showCommentsButton.addEventListener("click", function () {
+        showReviewsButton.addEventListener("click", function () {
             for (let i = 0; i < reviewsContainers.length; i++) {
                 reviewsContainers[i].style.display = "none";
             }
@@ -192,30 +193,23 @@ function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInp
             for (let i = 0; i < reviewsContainers.length; i++) {
                 reviewsContainers[i].style.display = "flex";
             }
-            showCommentsButton.remove();
+            showReviewsButton.remove();
         })
     }
 
-    // Remove labels and the rating value
-    newReviewContainer.querySelector('label[for="name-input"]').remove();
-    newReviewContainer.querySelector('label[for="rating-input"]').remove();
-    newReviewContainer.querySelector('label[for="review-input"]').remove();
-    newReviewContainer.querySelector('.rating-value').remove();
 }
 
 function removeButtonHandler(newReviewContainer) {
-    // remove
     newReviewContainer.remove();
 }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
         // Generate a random index between 0 and 15, but not less than 8 to avoid light colors
-        var randomIndex = Math.floor(Math.random() * 8) + 8;
+        let randomIndex = Math.floor(Math.random() * 8) + 8;
         color += letters[randomIndex];
     }
     return color;
 }
-

@@ -43,14 +43,29 @@ class Review {
 /* Array of Review objects to store submitted feedback */
 let reviews = [];
 let reviewsContainers = [];
+/* By default, only the last 3 reviews are shown */
+const MAX_DISPLAYED_REVIEWS = 3;
 /* Gets the already existing elements in DOM */
 let reviewsContainer = document.querySelector("#reviews-container");
 let addReviewButton = document.querySelector("#add-review");
 addReviewButton.addEventListener("click", addReviewButtonHandler);
-/* Adds a button to show more comments */
+/* Adds a button to show more reviews */
 let showReviewsButton = document.createElement("button");
 showReviewsButton.id = "show-reviews";
 showReviewsButton.textContent = "Show more reviews";
+addReviewButton.insertAdjacentElement("afterend", showReviewsButton);
+showReviewsButton.style.display = "none";
+/* Shows all the reviews and then removes the button */
+showReviewsButton.addEventListener("click", function () {
+    for (let i = 0; i < reviewsContainers.length; i++) {
+        reviewsContainers[i].style.display = "none";
+    }
+
+    for (let i = 0; i < reviewsContainers.length; i++) {
+        reviewsContainers[i].style.display = "flex";
+    }
+    showReviewsButton.remove();
+})
 
 function addReviewButtonHandler() {
     /* Containers for the new review */
@@ -171,32 +186,21 @@ function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInp
     /* Stores the new review container */
     reviewsContainers.push(newReviewContainer);
     /* Shows only 3 reviews */
-    if (reviewsContainers.length > 3) {
-        /* Checks to see if this button exists */
-        if (!document.querySelector("#show-comments")) {
-            addReviewButton.insertAdjacentElement("afterend", showReviewsButton);
+    if (reviewsContainers.length > MAX_DISPLAYED_REVIEWS && showReviewsButton !== null) {
+        /* Shows the show more reviews button if there is more than 3 reviews */
+        let showReviewsButton = document.querySelector("#show-reviews");
+        if (showReviewsButton.style.display === "none") {
+            showReviewsButton.style.display = "inline";
         }
-
+        /* Hides all the reviews and only shows the last 3 */
         for (let i = 0; i < reviewsContainers.length; i++) {
             reviewsContainers[i].style.display = "none";
         }
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < MAX_DISPLAYED_REVIEWS; i++) {
             reviewsContainers[reviewsContainers.length - 1 - i].style.display = "flex";
         }
-
-        showReviewsButton.addEventListener("click", function () {
-            for (let i = 0; i < reviewsContainers.length; i++) {
-                reviewsContainers[i].style.display = "none";
-            }
-
-            for (let i = 0; i < reviewsContainers.length; i++) {
-                reviewsContainers[i].style.display = "flex";
-            }
-            showReviewsButton.remove();
-        })
     }
-
 }
 
 function removeButtonHandler(newReviewContainer) {

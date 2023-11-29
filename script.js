@@ -33,9 +33,23 @@ nextButton.addEventListener("click", function () {
 
 /* reviews */
 
+class Review {
+    constructor(name, rating, review) {
+        this.name = name;
+        this.rating = rating;
+        this.review = review;
+    }
+}
+
+let reviews = [];
+let reviewsContainers = [];
+
 let reviewsContainer = document.querySelector("#reviews-container");
 let addReviewButton = document.querySelector("#add-review");
 addReviewButton.addEventListener("click", addReviewButtonHandler);
+let showCommentsButton = document.createElement("button");
+showCommentsButton.id = "show-comments";
+showCommentsButton.textContent = "Show more comments";
 
 function addReviewButtonHandler() {
     //
@@ -67,9 +81,10 @@ function addReviewButtonHandler() {
     ratingContainer.classList.add("rating-container");
     let ratingLabel = document.createElement("label");
     let ratingValue = document.createElement("p");
+    ratingValue.className = "rating-value";
     ratingLabel.textContent = "Rating";
     ratingLabel.style.fontWeight = "bold";
-    ratingLabel.setAttribute("for", "rating-input")
+    ratingLabel.setAttribute("for", "rating-input");
     let ratingInput = document.createElement("input");
     ratingInput.type = "range";
     ratingInput.className = "rating-input";
@@ -110,20 +125,23 @@ function addReviewButtonHandler() {
         reviewsContainer.appendChild(newReviewContainer);
     }
 
-    saveButton.addEventListener("click", () => saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton));
+    saveButton.addEventListener("click", () => saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton));
 
     // necessary event handlers
     removeButton.addEventListener("click", () => removeButtonHandler(newReviewContainer));
 }
 
-function saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton) {
+function saveButtonHandler(newReviewContainer, userPicture, nameInput, ratingInput, reviewInput, saveButton, removeButton) {
+    let review = new Review(nameInput.value, ratingInput.value, reviewInput.value);
+    reviews.push(review);
+
     // user picture
     userPicture.textContent = nameInput.value.charAt(0).toUpperCase();
     userPicture.style.backgroundColor = getRandomColor();
-
     // replace
     let nameInfo = document.createElement("p");
     nameInfo.textContent = nameInput.value;
+    nameInfo.style.fontWeight = "bold";
     nameInput.parentNode.replaceChild(nameInfo, nameInput);
     // replace
     let ratingInfo = document.createElement("p");
@@ -145,9 +163,44 @@ function saveButtonHandler(reviewInfoContainer, userPicture, nameInput, ratingIn
     let reviewInfo = document.createElement("p");
     reviewInfo.textContent = reviewInput.value;
     reviewInput.parentNode.replaceChild(reviewInfo, reviewInput);
+
     // remove
     saveButton.remove();
     removeButton.remove();
+
+    //
+    reviewsContainers.push(newReviewContainer);
+    if (reviewsContainers.length > 3) {
+        //check to see if this button exists...
+        if (!document.querySelector("#show-comments")) {
+            addReviewButton.insertAdjacentElement("afterend", showCommentsButton);
+        }
+
+        for (let i = 0; i < reviewsContainers.length; i++) {
+            reviewsContainers[i].style.display = "none";
+        }
+
+        for (let i = 0; i < 3; i++) {
+            reviewsContainers[reviewsContainers.length - 1 - i].style.display = "flex";
+        }
+
+        showCommentsButton.addEventListener("click", function () {
+            for (let i = 0; i < reviewsContainers.length; i++) {
+                reviewsContainers[i].style.display = "none";
+            }
+
+            for (let i = 0; i < reviewsContainers.length; i++) {
+                reviewsContainers[i].style.display = "flex";
+            }
+            showCommentsButton.remove();
+        })
+    }
+
+    // Remove labels and the rating value
+    newReviewContainer.querySelector('label[for="name-input"]').remove();
+    newReviewContainer.querySelector('label[for="rating-input"]').remove();
+    newReviewContainer.querySelector('label[for="review-input"]').remove();
+    newReviewContainer.querySelector('.rating-value').remove();
 }
 
 function removeButtonHandler(newReviewContainer) {
@@ -165,3 +218,4 @@ function getRandomColor() {
     }
     return color;
 }
+

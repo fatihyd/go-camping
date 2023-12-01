@@ -1,0 +1,4 @@
+If the number of users affected by the problem is small and the cost of fixing the issue is high, then immediate troubleshooting may not be the best choice.
+
+If the number of users affected by the problem is high and the prior version was bug-free, then reverting back to the previous version may be a quick first solution.
+But we must still gather detailed feedback and address the bug considering the number of users affected by this.

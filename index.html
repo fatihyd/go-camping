@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Han Camping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -81,22 +81,35 @@
                         <h4>From <span style="font-size:25px; font-weight:bold;">10€</span> / per night / per guest</h4>
                         <span style="font-size: 14px;">(1 minimum nights)</span>
                     </div>
-                    <div id="check-in-date">
-                        <label for="start-date">Check-In</label>
-                        <input type="date" id="start-date">
-                    </div>
-                    <div id="check-out-date">
-                        <label for="end-date">Check-Out</label>
-                        <input type="date" id="end-date">
-                    </div>
-                    <div id="book-guests">
-                        <label for="number-of-guests">Guests</label>
-                        <input type="number" id="number-of-guests" min="1">
-                    </div>
-                    <button id="book-now">Book Now!</button>
+                    <form id="booking-form">
+                        <div id="check-in-date">
+                            <label for="start-date">Check-In</label>
+                            <input type="date" id="start-date" required>
+                        </div>
+                        <div id="check-out-date">
+                            <label for="end-date">Check-Out</label>
+                            <input type="date" id="end-date" required>
+                        </div>
+                        <div id="book-guests">
+                            <label for="number-of-guests">Guests</label>
+                            <input type="number" id="number-of-guests" min="1" placeholder="Num of guests" required>
+                        </div>
+                        <button id="book-now" type="submit">Book Now!</button>
+                    </form>
                 </div>
             </div>
         </div>
+
+        <!-- The Modal -->
+        <dialog id="book-modal">
+            <!-- Modal content -->
+            <div id="modal-content">
+                <span id="exit-modal">&times;</span>
+                <h2>Camp booked successfully!</h2>
+                <p id="book-counter"></p>
+            </div>
+
+        </dialog>
 
         <div id="overview">
             <h2>Overview</h2>

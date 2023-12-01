@@ -217,3 +217,35 @@ function getRandomColor() {
     }
     return color;
 }
+
+/* book now modal */
+// Get the modal
+let modalContainer = document.querySelector("#book-modal");
+
+// Get the button that opens the modal
+let bookButton = document.querySelector("#book-now");
+
+// Get the <span> element that closes the modal
+let exitModalButton = document.querySelector("#exit-modal");
+
+let bookCounter = 0;
+let bookCounterText = document.querySelector("#book-counter");
+
+// When the user clicks the button, open the modal 
+bookButton.onclick = function () {
+    bookCounter++;
+    bookCounterText.textContent = "This camp has been booked " + bookCounter + " times.";
+    modalContainer.showModal();
+}
+
+// When the user clicks on <span> (x), close the modal
+exitModalButton.onclick = function () {
+    modalContainer.close();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modalContainer) {
+        modalContainer.close();
+    }
+}

@@ -7,6 +7,10 @@ body {
     font-family: sans-serif;
 }
 
+p {
+    line-height: 1.6;
+}
+
 /* header section */
 header {
     display: flex;
@@ -334,11 +338,40 @@ input[type=range]::-moz-range-thumb {
     cursor: pointer;
 }
 
-p {
-    line-height: 1.6;
-}
-
 .user-profile {
     display: flex;
     align-items: center;
+}
+
+/* booking modal */
+
+#book-modal::backdrop {
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content */
+#modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+#exit-modal {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#exit-modal:hover,
+#exit-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
